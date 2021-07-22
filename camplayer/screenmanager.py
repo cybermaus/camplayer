@@ -775,7 +775,7 @@ class ScreenManager(object):
 
         # Switch to single view
         elif action == Action.SWITCH_SINGLE:
-            self._action_switch_single(window_idx=param)
+            self._action_switch_single(window_idx=param, next_window=self._single_window_mode[self._selected_display])
 
         # Switch to previous/next window/screen
         elif action == Action.SWITCH_NEXT or action == Action.SWITCH_PREV:

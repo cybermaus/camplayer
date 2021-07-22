@@ -117,9 +117,9 @@ class InputMonitor(object):
                                     if   (      event.code == evdev.ecodes.REL_WHEEL
                                             and abs(event.value) > 0 ):
                                         if event.value > 0: 
-                                            event.code = evdev.ecodes.KEY_0
+                                            event.code = evdev.ecodes.KEY_ESC
                                         else:
-                                            event.code = evdev.ecodes.KEY_1
+                                            event.code = evdev.ecodes.KEY_ENTER
                                         self._mouse_inhibit = time.monotonic()
                                         self._event_queue.put_nowait(event)
                                     # move left/right while button down is prev/next screen
