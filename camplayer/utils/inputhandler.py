@@ -92,16 +92,19 @@ class InputMonitor(object):
                                             self._mouse_quit_sequence = 2
                                         # Right release, as completion of Quit sequence: Quit program
                                         elif event.value == 0 and self._mouse_quit_sequence == 3:
+                                            event.type = evdev.ecodes.EV_KEY
                                             event.code = evdev.ecodes.KEY_Q
                                             self._event_queue.put_nowait(event)
                                         # Right release, while left is still down: Blank screen
                                         elif event.value == 0 and self._mouse_btn_state == 1:
                                             self._mouse_quit_sequence = 0
+                                            event.type = evdev.ecodes.EV_KEY
                                             event.code = evdev.ecodes.KEY_B
                                             self._event_queue.put_nowait(event)
                                         # Right release, while left is not down: Pause autorotate
                                         elif event.value == 0 and self._mouse_btn_state == 1:
                                             self._mouse_quit_sequence = 0
+                                            event.type = evdev.ecodes.EV_KEY
                                             event.code = evdev.ecodes.KEY_SPACE
                                             self._event_queue.put_nowait(event)
 
@@ -135,6 +138,7 @@ class InputMonitor(object):
                                             event.code = evdev.ecodes.KEY_ESC
                                         else:
                                             event.code = evdev.ecodes.KEY_ENTER
+                                        event.type = evdev.ecodes.EV_KEY
                                         self._mouse_inhibit = time.monotonic()
                                         self._event_queue.put_nowait(event)
                                     # move left/right while button down is prev/next screen
@@ -145,6 +149,7 @@ class InputMonitor(object):
                                             event.code = evdev.ecodes.KEY_RIGHT
                                         else:
                                             event.code = evdev.ecodes.KEY_LEFT
+                                        event.type = evdev.ecodes.EV_KEY
                                         self._mouse_inhibit = time.monotonic()
                                         self._event_queue.put_nowait(event)
                                     # move up/down while button down is higher/lower quality
@@ -155,6 +160,7 @@ class InputMonitor(object):
                                             event.code = evdev.ecodes.KEY_DOWN
                                         else:
                                             event.code = evdev.ecodes.KEY_UP
+                                        event.type = evdev.ecodes.EV_KEY
                                         self._mouse_inhibit = time.monotonic()
                                         self._event_queue.put_nowait(event)
 
