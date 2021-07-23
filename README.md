@@ -7,6 +7,10 @@ Especially the RTSP protocol is supported by nearly all big brands out there.
 
  ![Camplayer 2x2 grid](./screenshots/camplayer_nolink.png)
 
+NOTE: This is my fork. The "my_player" branch has all my changes as I run them, regardless if they are accepted
+into the the original fork. The master branch remains a copy to track said original.
+Install instructions below have been updated to install this "my_player" branch.
+
 ## Website
 [https://www.rpi-camplayer.com/](https://www.rpi-camplayer.com/)
 
@@ -111,7 +115,7 @@ sudo apt-get install git
 
 Get the source code and check it out in the current directory:  
 ```
-git clone -b Camplayer_1.0 https://github.com/raspicamplayer/camplayer.git
+git clone -b my_player https://github.com/cybermaus/camplayer.git
 ```
 
 Install camplayer by running the install script:  
