@@ -307,10 +307,11 @@ either gesture left/right a few times, or scroll down further
 while holding left button down
 - move left/right   Switch to previous/next screen (or window in single view mode).
 - move up/down      Increase/decrease stream quality (if multiple subchannels/substreams configured).
-- click right       Quit camplayer.
+- click right       Blank/Unblank screen
 normal actions
 - click right       Pause/unpause automatic screen rotation.
 - scroll up/down    Switch between grid to single view mode.
+quit sequence	    Left down; Right down; Left release; Right release
 ```
 ## Roadmap
 ### Camplayer 2

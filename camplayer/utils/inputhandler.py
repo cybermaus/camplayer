@@ -23,6 +23,7 @@ class InputMonitor(object):
         self._mouse_btn_state = 0
         self._mouse_abs_x = 500
         self._mouse_abs_y = 500
+        self._mouse_quit_sequence = 0
         
     def destroy(self):
         """Stop monitoring thread"""
@@ -74,21 +75,35 @@ class InputMonitor(object):
                                 if ( event.code in {evdev.ecodes.BTN_MOUSE,
                                                     evdev.ecodes.BTN_RIGHT,
                                                     evdev.ecodes.BTN_MIDDLE} ):
-                                    # Left click: track (left) mouse button state
-                                    # note that left mouse click by itself does not do anything
+                                    # Left button
                                     if event.code == evdev.ecodes.BTN_MOUSE:
+                                        # Left click: track mouse button state
                                         self._mouse_btn_state = event.value
-                                    # Right click, while left is already down, Quit program
-                                    elif (      event.code == evdev.ecodes.BTN_RIGHT 
-                                            and self._mouse_btn_state == 1
-                                            and event.value == 0 ): 
-                                        event.code = evdev.ecodes.KEY_Q
-                                        self._event_queue.put_nowait(event)
-                                    # Right click, while left is not already down, Pause autorotate
-                                    elif (      event.code == evdev.ecodes.BTN_RIGHT
-                                            and event.value == 0 ):
-                                        event.code = evdev.ecodes.KEY_SPACE
-                                        self._event_queue.put_nowait(event)
+                                        # Left down: set Quit sequence tracker
+                                        if event.value == 1:
+                                            self._mouse_quit_sequence = 1
+                                        # Left release: advance Quit sequence tracker
+                                        elif event.value == 0 and self._mouse_quit_sequence == 2:
+                                            self._mouse_quit_sequence = 3
+                                    # Right button
+                                    elif event.code == evdev.ecodes.BTN_RIGHT:
+                                        # Right down: advance Quit sequence tracker
+                                        if event.value == 1 and self._mouse_quit_sequence == 1:
+                                            self._mouse_quit_sequence = 2
+                                        # Right release, as completion of Quit sequence: Quit program
+                                        elif event.value == 0 and self._mouse_quit_sequence == 3:
+                                            event.code = evdev.ecodes.KEY_Q
+                                            self._event_queue.put_nowait(event)
+                                        # Right release, while left is still down: Blank screen
+                                        elif event.value == 0 and self._mouse_btn_state == 1:
+                                            self._mouse_quit_sequence = 0
+                                            event.code = evdev.ecodes.KEY_B
+                                            self._event_queue.put_nowait(event)
+                                        # Right release, while left is not down: Pause autorotate
+                                        elif event.value == 0 and self._mouse_btn_state == 1:
+                                            self._mouse_quit_sequence = 0
+                                            event.code = evdev.ecodes.KEY_SPACE
+                                            self._event_queue.put_nowait(event)
 
                                 # other keys / keyboard keys
                                 elif self._event_up and event.value == 0:
