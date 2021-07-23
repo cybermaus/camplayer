@@ -297,6 +297,7 @@ numeric keys 1..16  Switch from grid view mode to the relevant window in fullscr
 numeric key 0       Switch from single view to grid view mode and unpause rotation.
 escape              Switch from single view to grid view mode and unpause rotation.
 letter 'q'          Quit camplayer.
+letter 'b'	    Blank screen / energy saver (any further key will unblank)
 ```
 ## Mouse gestures
 Please note there is no absolute positioning, nor any visible mouse. So you cannot jump directly to
