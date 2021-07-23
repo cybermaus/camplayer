@@ -5,6 +5,7 @@ import os
 import time
 import platform
 import signal
+import subprocess
 
 from utils.logger import LOG
 from utils.settings import CONFIG, HEVCMODE, BACKGROUND
@@ -46,6 +47,7 @@ def main():
     num_array = []
     last_added = time.monotonic()
     ignore_quit = False
+    screen_blanked = False
 
     if not platform.system() == "Linux":
         sys.exit("'%s' OS not supported!" % platform.system())
@@ -234,7 +236,12 @@ def main():
         for event in keyboard.get_events():
             last_added = time.monotonic()
 
-            if event.code in KEYCODE.KEY_NUM.keys():
+            # if blanked screen, any will unblank, but this eats the key
+            if screen_blanked and event.type == KEYCODE.EV_KEY:
+                subprocess.run(['tvservice','-p'])
+                screen_blanked = False
+
+            elif event.code in KEYCODE.KEY_NUM.keys():
                 LOG.DEBUG(_LOG_NAME, "Numeric key event: %i" % KEYCODE.KEY_NUM.get(event.code))
 
                 num_array.append(KEYCODE.KEY_NUM.get(event.code))
@@ -270,6 +277,10 @@ def main():
 
                 elif event.code == KEYCODE.KEY_D:
                     screenmanager.on_action(Action.SWITCH_DISPLAY_CONTROL)
+
+                elif event.code == KEYCODE.KEY_B:
+                    subprocess.run(['tvservice','-o'])
+                    screen_blanked = True
 
                 elif event.code == KEYCODE.KEY_Q and not ignore_quit:
                     running = False
