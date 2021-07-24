@@ -236,7 +236,7 @@ def main():
         for event in keyboard.get_events():
             last_added = time.monotonic()
 
-            # if blanked screen, any will unblank, but this eats the key
+            # if blanked screen, any key will unblank, but this eats the key
             if screen_blanked and event.type == KEYCODE.EV_KEY:
                 subprocess.run(['tvservice','-p'])
                 screen_blanked = False
