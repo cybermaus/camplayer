@@ -344,6 +344,19 @@ while holding left button down
 - up/down move      Increase/decrease stream quality (if multiple subchannels/substreams configured).
 quit sequence       Left down; Right down; Left release; Right release
 ```
+## Mouse gestures
+Please note there is no visible mouse. Nor any absolute positioning. So you cannot click directly on
+a specific camera. To view a specific camera in single view, scroll down for the first camera, then
+continue to scroll or gesture left/right for the other cameras.
+```
+direct control
+- click right       Pause/unpause automatic screen rotation.
+- scroll down/up    Switch from grid to single view mode and back.
+while holding left button down
+- left/right move   Switch to previous/next screen (or window in single view mode).
+- up/down move      Increase/decrease stream quality (if multiple subchannels/substreams configured).
+quit sequence       Left down; Right down; Left release; Right release
+```
 
 ## Roadmap
 ### Camplayer 2
