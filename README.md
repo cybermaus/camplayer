@@ -304,47 +304,6 @@ letter 'q'          Quit camplayer.
 letter 'b'	    Blank screen / energy saver (any further key will unblank)
 ```
 ## Mouse gestures
-Please note there is no absolute positioning, nor any visible mouse. So you cannot jump directly to
-the single view for a specific camera. you need to scroll down to camera 1, and then
-either gesture left/right a few times, or scroll down further
-```
-while holding left button down
-- move left/right   Switch to previous/next screen (or window in single view mode).
-- move up/down      Increase/decrease stream quality (if multiple subchannels/substreams configured).
-- click right       Blank/Unblank screen
-normal actions
-- click right       Pause/unpause automatic screen rotation.
-- scroll up/down    Switch between grid to single view mode.
-quit sequence	    Left down; Right down; Left release; Right release
-```
-## Mouse gestures
-Please note there is no absolute positioning, nor any visible mouse. So you cannot jump directly to
-the single view for a specific camera. you need to scroll down to camera 1, and then
-either gesture left/right a few times, or scroll down further
-```
-while holding left button down
-- move left/right   Switch to previous/next screen (or window in single view mode).
-- move up/down      Increase/decrease stream quality (if multiple subchannels/substreams configured).
-- click right       Blank/Unblank screen
-normal actions
-- click right       Pause/unpause automatic screen rotation.
-- scroll up/down    Switch between grid to single view mode.
-quit sequence	    Left down; Right down; Left release; Right release
-```
-## Mouse gestures
-Please note there is no visible mouse. Nor any absolute positioning. So you cannot click directly on
-a specific camera. To view a specific camera in single view, scroll down for the first camera, en
-continue to scroll or gesture left/right for the other cameras.
-```
-direct control
-- click right       Pause/unpause automatic screen rotation.
-- scroll down/up    Switch from grid to single view mode and back.
-while holding left button down
-- left/right move   Switch to previous/next screen (or window in single view mode).
-- up/down move      Increase/decrease stream quality (if multiple subchannels/substreams configured).
-quit sequence       Left down; Right down; Left release; Right release
-```
-## Mouse gestures
 Please note there is no visible mouse. Nor any absolute positioning. So you cannot click directly on
 a specific camera. To view a specific camera in single view, scroll down for the first camera, then
 continue to scroll or gesture left/right for the other cameras.
