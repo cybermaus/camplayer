@@ -19,6 +19,8 @@ class BackGround(object):
 
     # Backgrounds behind video
     NOLINK_1X1  = "nolink_1x1.png"
+    NOLINK_1X2  = "nolink_1x2.png"
+    NOLINK_1X3  = "nolink_1x3.png"
     NOLINK_2X2  = "nolink_2x2.png"
     NOLINK_3X3  = "nolink_3x3.png"
     NOLINK_4X4  = "nolink_4x4.png"
@@ -34,8 +36,8 @@ class BackGround(object):
 
         _map = ({
             1: cls.NOLINK_1X1,
-            2: cls.NOLINK_1X1,
-            3: cls.NOLINK_1X1,
+            2: cls.NOLINK_1X2,
+            3: cls.NOLINK_1X3,
             4: cls.NOLINK_2X2,
             6: cls.NOLINK_1P5,
             7: cls.NOLINK_3P4,
