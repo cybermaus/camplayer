@@ -134,7 +134,7 @@ class InputMonitor(object):
                                     # wheel up/down is zoom in/out, iow, single/grid view
                                     if   (      event.code == evdev.ecodes.REL_WHEEL
                                             and abs(event.value) > 0 ):
-                                        if event.value > 0: 
+                                        if event.value > 0:
                                             event.code = evdev.ecodes.KEY_ESC
                                         else:
                                             event.code = evdev.ecodes.KEY_ENTER
