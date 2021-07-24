@@ -36,6 +36,8 @@ class CONSTANTS(object):
 class KEYCODE(object):
     """Linux keyboard scancodes"""
 
+    EV_KEY                  = 0x01
+
     KEY_B                   = 48
     KEY_D                   = 32
     KEY_Q                   = 16
