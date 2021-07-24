@@ -14,6 +14,8 @@ from . import constants
 @unique
 class LAYOUT(IntEnum):
     _1X1                = 1
+    _1X2                = 2
+    _1X3                = 3
     _2X2                = 4
     _3X3                = 9
     _1P5                = 6

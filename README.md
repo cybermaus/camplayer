@@ -7,6 +7,10 @@ Especially the RTSP protocol is supported by nearly all big brands out there.
 
  ![Camplayer 2x2 grid](./screenshots/camplayer_nolink.png)
 
+NOTE: This is my fork. The "my_version" branch has all my changes as I run them, regardless if they are accepted
+into the the original fork. The master branch remains a copy to track said original.
+Install instructions below have been updated to install this "my_version" branch.
+
 ## Website
 [https://www.rpi-camplayer.com/](https://www.rpi-camplayer.com/)
 
@@ -111,7 +115,7 @@ sudo apt-get install git
 
 Get the source code and check it out in the current directory:  
 ```
-git clone -b Camplayer_1.0 https://github.com/raspicamplayer/camplayer.git
+git clone -b my_version https://github.com/cybermaus/camplayer.git
 ```
 
 Install camplayer by running the install script:  
@@ -297,6 +301,20 @@ numeric keys 1..16  Switch from grid view mode to the relevant window in fullscr
 numeric key 0       Switch from single view to grid view mode and unpause rotation.
 escape              Switch from single view to grid view mode and unpause rotation.
 letter 'q'          Quit camplayer.
+letter 'b'	    Blank screen / energy saver (any further key will unblank)
+```
+## Mouse gestures
+Please note there is no visible mouse. Nor any absolute positioning. So you cannot click directly on
+a specific camera. To view a specific camera in single view, scroll down for the first camera, then
+continue to scroll or gesture left/right for the other cameras.
+```
+direct control
+- click right       Pause/unpause automatic screen rotation.
+- scroll down/up    Switch from grid to single view mode and back.
+while holding left button down
+- left/right move   Switch to previous/next screen (or window in single view mode).
+- up/down move      Increase/decrease stream quality (if multiple subchannels/substreams configured).
+quit sequence       Left down; Right down; Left release; Right release
 ```
 
 ## Roadmap
