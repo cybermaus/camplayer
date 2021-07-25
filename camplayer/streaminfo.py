@@ -17,11 +17,6 @@ class StreamInfo(object):
 
     def __init__(self, stream_url):
 
-        # Detect and convert youtube URL
-        if stream_url.startswith('https://www.youtube.com/watch'):
-            LOG.ERROR(self._LOG_NAME, "Converting YouTube URL %s" % stream_url )
-            stream_url = subprocess.check_output(['youtube-dl', '-4','-g', stream_url]).decode().strip('\n')
-
         # Make absolute paths from relative ones
         if stream_url.startswith('file://.'):
             stream_url = "file://" + os.path.abspath(stream_url.lstrip('file:/'))
