@@ -3,6 +3,8 @@
 import os
 import json
 import subprocess
+import time
+import re
 
 from urllib.parse import urlparse, urlunparse
 from utils.logger import LOG
@@ -17,17 +19,10 @@ class StreamInfo(object):
 
     def __init__(self, stream_url):
 
-        # Detect and convert youtube URL
-        if stream_url.startswith('https://www.youtube.com/watch'):
-            try:
-                LOG.INFO(self._LOG_NAME, "Converting YouTube URL %s" % stream_url )
-                stream_url = subprocess.check_output(['youtube-dl', '-4','-g', stream_url]).decode().strip('\n')
-            except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as ex:
-                LOG.ERROR(self._LOG_NAME, "Failed to convert YouTube URL error: %s" % str(ex))
-
         # Make absolute paths from relative ones
         if stream_url.startswith('file://.'):
             stream_url = "file://" + os.path.abspath(stream_url.lstrip('file:/'))
+            # TODO I believe this should be moved to _parse_stream_details()
 
         self.url                    = stream_url
         self._cache_file            = CONSTANTS.CACHE_DIR + "streaminfo"
@@ -37,6 +32,10 @@ class StreamInfo(object):
         self.framerate              = 0
         self.has_audio              = False
         self.force_udp              = False
+        self.source                 = ""
+        self.seedurl                = stream_url
+        self.expire                 = int(time.time()) + 84400
+
         self._parse_stream_details()
 
         self.valid_url              = self._is_url_valid()
@@ -56,7 +55,7 @@ class StreamInfo(object):
     def printable_url(self):
         """Returns streaming url without readable username and password"""
 
-        parsed = urlparse(self.url)
+        parsed = urlparse(self.seedurl)
 
         if parsed.username or parsed.password:
             parsed = parsed._replace(netloc=str("xxx:yyy@%s:%s" % (parsed.hostname, parsed.port)))
@@ -157,13 +156,21 @@ class StreamInfo(object):
                     self.framerate      = stream_props.get('framerate')
                     self.has_audio      = stream_props.get('audio')
                     self.force_udp      = stream_props.get('force_udp')
-                    parsed_ok = True
+                    self.source         = stream_props.get('source')
+                    self.url            = stream_props.get('url')
+                    self.expire         = stream_props.get('expire')
+                    if self.expire > int(time.time())-3600:
+                        parsed_ok = True
 
         if not parsed_ok:
             for i in range(2):
 
                 # Most cameras are using TCP, so test for TCP first. If that fails, test with UDP.
                 transport = 'udp' if i > 0 else 'tcp'
+
+                # Detect and convert youtube URL
+                if self.url.startswith('https://www.youtube.com/watch'):
+                    self.url = self._youtube()
 
                 try:
                     ffprobe_args = ['ffprobe', '-v', 'error', '-show_entries',
@@ -232,6 +239,9 @@ class StreamInfo(object):
             'framerate'     : self.framerate,
             'audio'         : self.has_audio,
             'force_udp'     : self.force_udp,
+            'source'        : self.source,
+            'url'           : self.url,
+            'expire'        : self.expire,
         }}
 
         # Read stream details file and append our new data
@@ -247,3 +257,25 @@ class StreamInfo(object):
         # Write stream details to file
         with open(self._cache_file, 'w+') as stream_file:
             json.dump(data, stream_file, indent=4)
+
+    def _youtube(self):
+        """Decode YouTube URL and put in cache"""
+
+        if not self.seedurl.startswith('https://www.youtube.com/watch'):
+            return
+
+        # Detect and convert youtube URL
+        LOG.INFO(self._LOG_NAME, "Converting YouTube URL %s" % self.seedurl )
+        self.source = "youtube"
+
+        try:
+            youtube_url = subprocess.check_output(['youtube-dl', '-4','-g', self.seedurl]).decode().strip('\n')
+            tmp = re.search('[?&\/]expire[=\/](\d*)[&\/]', youtube_url)
+            if tmp:
+                self.expire=tmp.group(1)
+
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired) as ex:
+            youtube_url = ""
+            LOG.ERROR(self._LOG_NAME, "Failed to convert YouTube URL error: %s" % str(ex))
+
+        return youtube_url
