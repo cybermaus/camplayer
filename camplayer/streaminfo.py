@@ -159,7 +159,7 @@ class StreamInfo(object):
                     self.source         = stream_props.get('source')
                     self.url            = stream_props.get('url')
                     self.expire         = stream_props.get('expire')
-                    if self.expire > int(time.time())-3600:
+                    if int(self.expire) > int(time.time())-1800:
                         parsed_ok = True
 
         if not parsed_ok:
