@@ -316,6 +316,17 @@ def main():
     utils.kill_service('vlc', force=True)
     utils.kill_service('pipng', force=True)
 
+    # Prodding Framebuffer to get it to display properly again
+    # neither of these commands change the framebuffer, which is better then the
+    # solution I seen where they do the same by setting 32-bit color depth.
+    # Both commands are needed, as each by itself only works once.
+    LOG.DEBUG(_LOG_NAME, "Prodding framebuffer to trigger redisplay.")
+    try:
+        os.system("fbset -move up -step 0")
+        os.system("fbset -a -move up -step 0")
+    except:
+        LOG.DEBUG(_LOG_NAME, "Prodding framebuffer failed.")
+
     LOG.INFO(_LOG_NAME, "Exiting raspberry pi camplayer, have a nice day!")
     sys.exit(0)
 
